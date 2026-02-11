@@ -18,6 +18,15 @@
 - enter for two lines to give space between each list point 
 ---------------------------------------------------------------------------
 
+## account required 
+- github
+- upstash(for cache)
+- render
+- supabse
+- email
+
+
+
 ## ✨ Features
 
 
@@ -237,6 +246,8 @@ depending upon the  availibilty and need per project.***
 
 > 💀💀 if by any means the email id on which the project is uploaded gets deleted i don;t know what will happen to data 
 
+
+- NOTE:: if u change cache key ANYTIME just remember to change the set and delete key also everytime cache key is used.
 ------------------------------------------
 
 ## Testing doubts for me :

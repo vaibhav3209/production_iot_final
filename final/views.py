@@ -115,7 +115,7 @@ def cached_student_projects(student):
     if projects is None:
 
         projects = list(ProjectEnrolledStudents.objects.filter(
-                        proj_enroll_student=student
+                        proj_enroll_student_id=student.std_id
                     ).select_related(
                         'proj_enroll_project',
                         'proj_enroll_project__avail_proj_faculty_associated'
@@ -276,7 +276,7 @@ def enroll_in_projects(request):
         )
 
         # ------ Invalidate cache for this student ---------
-        cache.delete(f"student_{student.std_id}_projects")
+        cache.delete(f"cached_student_{student.std_id}_projects")
 
 
         messages.success(request,"Enrollment successful!",extra_tags="enroll_success")

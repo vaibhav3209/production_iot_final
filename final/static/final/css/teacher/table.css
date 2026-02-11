@@ -20,7 +20,6 @@ margin-bottom: 20px;
 background: #fafafa;
 border-radius: 8px;
 overflow: hidden;
-
     table-layout: fixed;
 
 }
@@ -138,5 +137,6 @@ overflow: hidden;
     }
     .category-block table {
         table-layout: auto;
+        overflow-x:auto;
     }
     }
