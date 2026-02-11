@@ -85,14 +85,18 @@
             <input type="text" name="roll_number" placeholder="Roll Number" required
                    pattern='^[2-9][0-9][eE][sS][kK][a-zA-Z]{2}[0-9]{3}$' minlength="10"
                    maxlength="10"
-                   inputmode="numeric" title="enter RTU Roll number only"/>
+                    title="enter RTU Roll number only"/>
 
             <input type="text" name="college_email" placeholder="College ID (b23xxxx)" required
                    minlength="7" maxlength="7"
                    pattern="^[bB][2-9][0-9]{5}$" title="Use college B-ID only"
                    autocomplete="text"/>
 
-            <input type="password" name="password" placeholder="Set Password" required/>
+            <div class="password-field">
+                <input type="password" id="password" name="password" placeholder="Set Password"
+                       required>
+                <span class="toggle-password" onclick="togglePassword(this)">👁</span>
+            </div>
 
             <input type="tel" name="phone_number" placeholder="Phone Number" required
                    pattern="[6-9][0-9]{9}" minlength="10" maxlength="10" inputmode="numeric"
