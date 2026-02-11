@@ -35,15 +35,9 @@
 
 
         <section>
-<!--if paginate then i removed searchbar-->
-
-<!--            <div class="search-bar">-->
-<!--                <input type="text" id="searchInput" placeholder="Search component..."-->
-<!--                       onkeyup="filterComponents()">-->
-<!--            </div>-->
-
             <div class="category-block">
                 {% if page_obj %}
+                       <div class="table-wrapper">
                 <table>
                     <thead>
                     <tr>
@@ -74,6 +68,7 @@
                     {% endfor %}
                     </tbody>
                 </table>
+                       </div>
             </div>
 
             <div class="pagination">

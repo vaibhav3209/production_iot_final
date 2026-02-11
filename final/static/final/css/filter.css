@@ -17,9 +17,9 @@
   position: fixed;
   top: 0;
   right: 0;
+  bottom:0;
   width: 250px;
   max-width: 90%;
-  height: 100vh;
   background: #fff;
   box-shadow: -4px 0 12px rgba(0,0,0,0.15);
   transform: translateX(100%);

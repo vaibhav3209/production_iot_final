@@ -1,5 +1,7 @@
 .category-block {
     margin-bottom: 40px;
+    width: 100%;
+    /*max-width: 100%;*/
 }
 
 .category-block h4 {
@@ -8,20 +10,24 @@
     margin-bottom: 12px;
 }
 
+.table-wrapper {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    background: #fafafa;
+}
 
-.category-block table{
-border:1;
-cells-pacing:0;
-cell-padding:8;
-margin-top: 10px;
-width: 100%;
-border-collapse: collapse;
-margin-bottom: 20px;
-background: #fafafa;
-border-radius: 8px;
-overflow: hidden;
-    table-layout: fixed;
-
+.category-block table {
+    margin-top: 10px;
+    width: 100%;
+    min-width: 1000px; /* ADD THIS - forces table to be wider */
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background: #fafafa;
+    border-radius: 8px;
+/*    overflow: hidden;*/
+    /* REMOVE table-layout: fixed; - this was the problem! */
 }
 
 .category-block thead {
@@ -34,14 +40,15 @@ overflow: hidden;
     text-align: left;
     font-size: 0.95rem;
     font-weight: 600;
+    white-space: nowrap; /* ADD THIS - prevents text wrapping in headers */
 }
 
 .category-block tbody td {
     padding: 12px 15px;
     border-bottom: 1px solid #eee;
     font-size: 0.9rem;
+    white-space: nowrap; /* ADD THIS - prevents text wrapping in cells */
 }
-
 
 /* Row Hover */
 .category-block tbody tr {
@@ -53,10 +60,9 @@ overflow: hidden;
     transform: translateY(-2px);
 }
 
-
 .edit-btn {
     padding: 6px 12px;
-    background-color: #fdd835 ;
+    background-color: #fdd835;
     color: black;
     text-decoration: none;
     border-radius: 6px;
@@ -65,7 +71,6 @@ overflow: hidden;
     transition: background-color 0.3s ease;
     margin-top: -3px;
 }
-
 
 .view-all-btn {
     padding: 6px 12px;
@@ -79,8 +84,6 @@ overflow: hidden;
     margin-top: -3px;
 }
 
-
-
 .view-all-btn:hover {
     background-color: #45a049;
 }
@@ -92,7 +95,7 @@ overflow: hidden;
 
 .btn-reject {
     padding: 6px 12px;
-    background-color: #f44336; ;
+    background-color: #f44336;
     color: white;
     text-decoration: none;
     border-radius: 6px;
@@ -102,7 +105,6 @@ overflow: hidden;
     margin-top: -3px;
 }
 
-
 .empty {
     text-align: center;
     padding: 20px;
@@ -111,10 +113,9 @@ overflow: hidden;
     border-radius: 8px;
     color: #666;
     font-style: italic;
-
 }
 
-/*Edit row*/
+/* Edit row */
 .edit-form {
     display: flex;
     gap: 20px;
@@ -128,15 +129,8 @@ overflow: hidden;
     padding: 6px 8px;
 }
 
-
-
 @media (max-width: 768px) {
-        .category-block {
-        max-height: 500px;
-        overflow-y: auto;
-    }
     .category-block table {
-        table-layout: auto;
-        overflow-x:auto;
+        min-width: 900px; /* Adjust based on your content */
     }
-    }
+}

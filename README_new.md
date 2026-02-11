@@ -254,3 +254,5 @@ depending upon the  availibilty and need per project.***
 
 - see that the activity page in the teacher section query the databse again and again if we 
     change the page but not change the filters.
+
+- how many login can a student do from different devices. HOW will it work ?
