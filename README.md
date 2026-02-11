@@ -1,8 +1,11 @@
 #  📑 Table of Contents
 - [Readme Shortcuts/Notations](#-readme-shortcuts)
+- [Account Required](#account-required-)
+- [Dependencies](#-dependencies)
 - [Features](#-features)
 - [Installation](#-installation)
 - [Directory Structre](#-directory-structure)
+- [ER diagram](#er-diagram-paste-in-future)
 - [Future Improvements](#-future-improvementsfor-future-developers)
 - [Problems](#-implementation-problems-)
 - [Testing Doubts for me](#testing-doubts-for-me-)
@@ -18,7 +21,7 @@
 - enter for two lines to give space between each list point 
 ---------------------------------------------------------------------------
 
-## account required 
+## 🌐 Account Required 
 - github
 - upstash(for cache)
 - render
@@ -26,6 +29,51 @@
 - email
 
 
+-------------------------------------------------------------------
+## 🧩 Dependencies
+
+This project uses the following core technologies in production(***rest are inclusive in these only***):
+
+🐍 Backend Framework
+
+`Django 5` – High-level Python web framework used to build the core application logic.
+
+`Django REST Framework` – Used for building RESTful APIs.
+
+🗄️ Database
+
+`PostgreSQL` – Production-grade relational database.
+
+`psycopg2-binary` – PostgreSQL adapter for Python (enables Django to connect to Postgres).
+
+`dj-database-url` – Parses database URLs for easy production configuration (Render/Supabase compatible).
+
+⚡ Caching
+
+`Redis` – In-memory data store used for caching.
+
+`django-redis` – Django integration for Redis caching backend.
+
+🚀 Production Server & Static Files
+
+`Gunicorn` – Production WSGI server used to serve the Django application.
+
+`Whitenoise` – Serves static files efficiently in production.
+
+🔐 Environment Configuration
+
+`python-decouple` – Secure management of environment variables (SECRET_KEY, DATABASE_URL, etc.).
+
+📊 Additional Integrations
+
+`OpenPyXL` – Excel file generation and processing.
+
+`Requests` – HTTP client for external API calls.
+
+`Brevo (sib-api-v3-sdk)` – Email service integration.
+
+
+-------------------------------------------------------------------
 
 ## ✨ Features
 
@@ -62,6 +110,84 @@
 ---------------------------------------------------------------------------
 
 ## 🛠️ Installation
+
+> commands will differ for MAC users
+
+
+1. Clone the repository. 
+`https://github.com/vaibhav3209/production_iot_final`
+
+
+2. Virtual ENV: see this page and create and activate your virtual env.
+`https://www.w3schools.com/python/python_virtualenv.asp`
+
+> 📌 **Remember:** keep the name of environment anything other than venv,env as it will cause reading issued from .env file that 
+> we have in our project.
+
+
+3. Now do  ` pip install -r config/requirements.txt` since the requirement.txt file is in config folder.
+
+
+4. Populate the .env file. (Take it from the team leader.)
+    Fields for env file are:: 
+
+
+    DATABASE_URL (- ⚠️ The application will not start if `DATABASE_URL` is missing. Admin interface will not be available otherwise.)
+    SECRET_KEY : (make new key every time from django)
+    DEBUG=True/False
+    ALLOWED_HOSTS
+    ADMIN_PATH
+    SESSION_COOKIE_SECURE=True/False
+    CSRF_COOKIE_SECURE=True/False
+    SESSION_COOKIE_AGE=True/False
+    CSRF_TRUSTED_ORIGINS
+    MAIL_API_KEY
+    REDIS_URL
+
+
+
+
+5. > 📌 **Remember:** IF NOT present,, make gitignore file and ⚠️!EXCLUDE ⚠️!EXCLUDE ⚠️!EXCLUDE .env from uploading to github.
+
+
+6.  if you want Local databse, you can select `db.sqlite3` from `settings.py` and uncomment it.
+
+
+7.  (ONLY if) using LOCALDATABaSE run ::  `python manage.py migrate`  to translate models into the database tables. 
+   
+ 
+8.  using RENDER:   
+    - make a build command like... `pip install -r config/requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput`
+
+    - and start command like ... `gunicorn teststudy.wsgi:application`
+
+
+9. Generate new Secret Key everytime: 
+    
+        python manage.py shell
+        >>from django.core.management.utils import get_random_secret_key
+        >>print(get_random_secret_key())
+
+10. Create a Django superuser
+(the username and password will help in the teacher login panel)
+    
+    `python manage.py createsuperuser`  
+
+> 📌 **Remember:**  username should be 10digit only as set by me in `login.html` and `model Student` constraints
+
+
+11. Check whether the project is running `python manage.py runserver`
+
+  
+>⚠️⚠️⚠️ **Remember:** 💀💀💀 Never delete or change  schema from database online if online databse you 
+     are using  
+     (Except you can delete 
+     data from table from anywhere)
+
+> ***IMPACT***:: otherwise your local `migrations` and `migrations` table in database  will 
+     conflict then it will be a problem.
+
+> ✅✅***Practice*** : Always make changes from Django only which is our only Backend For now.
 
 ---------------------------------------------------------------------------
 
@@ -126,6 +252,25 @@ project_root/
                     └── import_components.py
 ---------------------------------------------------------------------------
 
+## 📖 ER Diagram( Paste in Future)
+
+
+
+---------------------------------------------------------------------------
+
+## 📚 PROJECT GUIDELINES
+
+- Every column will start from a prefix of its table name. 
+  Some Examples.....
+
+
+    comp_cate_                     ==>>  for Component_categories
+    comp_                          ==>>  for Component model
+    std_                           ==>>  for Student model
+    std_issue_                     ==>>  for StudentIssueLog model
+  
+- We didn't used `Django--User model` as it was slow....... MAY BE due to our bad code but it was slow...
+---------------------------------------------------------------------------
 ## ⏳ Future Improvements(For future developers)
 
 > no PROJECT is perfect....
@@ -137,6 +282,10 @@ project_root/
 - Student Profile table of componenet issue histroy must be paginated and filter based on date,category,not returned etc can be applied too.
 Note: we have applied indexes on one tyoe of date so filter data on basis of that indexed date.
 - DO we have to make the functionality of disappear sidebar on outside click. on student panel??????
+- add eye button for password in Login Page also. take it from singup page
+- separate add + - button in student/requestcomponent
+- request component sidebar make it good looking.
+
 
 1. Improve Home Page according to the business requirements.
 
@@ -210,6 +359,21 @@ Note: we have applied indexes on one tyoe of date so filter data on basis of tha
 reduce query load on databse.  
 
 
+18. either make the website easy to use or we can add tutorials for some pages for student. tha tells how to avail all  the functionalities.
+***This is good*** for showing the interviewers also.
+
+
+19. ### Tokenising(Prevent URL Exposure)
+- use `uuids` to store student id's and component id's etc.
+- Instead of giving `<path:>` give a` random token ` value for each category which expires after 
+  short time to avoid Guessing by users.
+
+20. ### ***API*** 
+    - It can be made to filter results as that would make the load of api query less. 
+    - Currently API can be accesed by admins and staff only make it accesible to student but only their records.
+
+
+21. Add Github Branch Protection to secure it from `git push -- force` and every push will be made only by pull request. 
 ---------------------------------------
 
 ## ⚠️ Implementation Problems 
@@ -248,6 +412,8 @@ depending upon the  availibilty and need per project.***
 
 
 - NOTE:: if u change cache key ANYTIME just remember to change the set and delete key also everytime cache key is used.
+
+- Cache for Student enrolled projects is the only Growing cache. Think to manage it.
 ------------------------------------------
 
 ## Testing doubts for me :

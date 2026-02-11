@@ -1,4 +1,5 @@
 from django.urls import path
+from django.conf import settings
 from . import views
 from .views import StudentIssueLogAPI
 
@@ -33,5 +34,5 @@ urlpatterns = [
     path('teacher/all-students/', views.all_students, name='all_students'),
     path('teacher/all-students/<str:id>', views.student_details, name='student_details'),
 
-    path("api/studentissuelogs/",StudentIssueLogAPI.as_view(),name="student-issue-logs")
+    path(f"api/{settings.ADMIN_PATH}",StudentIssueLogAPI.as_view(),name="student-issue-logs")
 ]
