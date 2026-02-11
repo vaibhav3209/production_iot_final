@@ -1,0 +1,84 @@
+{% extends 'final/reusable_html/base_layout.html' %}
+
+{% load static %}
+
+{% block page_title %}Components{% endblock %}
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/teacher/table.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/student/category_cards.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/teacher/add_component_button.css' %}">
+{% endblock %}
+
+
+{% block extra_js_files %}<script src="{% static 'final/js/add_component_button.js' %}"></script>{% endblock %}
+
+{% block page_content %}
+<div class="dashboard-container">
+
+    {% include "final/reusable_html/admin_sidebar.html" %}
+
+    <main class="main-content">
+
+        <!-- Add button -->
+        <div class="component-add">
+            <button id="openAddRow" class="component-add__btn">
+                + Add Component
+            </button>
+        </div>
+
+        <!-- Hidden popup form -->
+        <form id="addComponentForm"
+              class="component-modal"
+              method="POST"
+              action="{% url 'final:add_component' %}">
+            {% csrf_token %}
+
+            <div class="component-modal__box">
+                <h3 class="component-modal__title">Add New Component</h3>
+
+                <input type="text"
+                       name="component_name"
+                       placeholder="Component Name"
+                       required
+                       class="component-modal__input">
+
+                <input type="number"
+                       name="component_qty"
+                       placeholder="Quantity"
+                       min="0"
+                       required
+                       class="component-modal__input">
+
+                <select name="component_category"
+                        required
+                        class="component-modal__select">
+                    <option value="">-- Select Category --</option>
+    {% for category in categories %}
+        <option value="{{ category.id }}">
+            {{ category.comp_cate_category_name }}
+        </option>
+    {% endfor %}
+                </select>
+
+                <div class="component-modal__actions">
+                    <button type="submit" class="component-modal__save">
+                        Save
+                    </button>
+
+                    <button type="button" id="cancelForm" class="component-modal__cancel">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </form>
+
+
+        {% include "final/reusable_html/admin_categorycards.html" %}
+
+    </main>
+
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'final/reusable_html/base_layout.html' %}
+
+{% load static %}
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/messages.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/student/project_cards.css' %}">
+{% endblock %}
+
+{% block extra_js_files %}
+<script src="{% static 'final/js/sidebar.js' %}"></script>
+{% endblock %}
+
+{% block page_title %}Enroll into Projects{% endblock %}
+
+{% block page_content%}
+<div class="dashboard-container">
+
+{% include "final/reusable_html/sidebar.html" %}
+
+ <main class="main-content">
+     <header class="top-header">
+         <span class="mobile-iot-toggle" id="mobilesidebarToggle">IoT</span>
+     </header>
+
+    <header>
+        <h1>All Available Projects</h1>
+    </header>
+
+     <div class="message-container ">
+         {% for message in messages %}
+             {% if "enroll_error" in message.tags %}
+                <p class="error-message">{{ message }}</p>
+             {% endif %}
+         {% endfor %}
+     </div>
+
+    <section>
+        {% if projects %}
+            <div class="card-container">
+                {% for item in projects %}
+                    <div class="card project-card">
+                        <h2 class="project-title">
+                            {{ item.avail_proj_project_name }}
+                        </h2>
+
+                        <p class="faculty-name">
+                            Faculty: {{ item.avail_proj_faculty_associated.faculty_name }}
+                        </p>
+
+                        <form method="POST" action="{% url 'final:enroll_in_projects' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="project_id" value="{{ item.id }}">
+                            <button type="submit" class="view-all-btn">Enroll</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h4>No projects available</h4>
+        {% endif %}
+    </section>
+</main>
+</div>
+{% endblock %}

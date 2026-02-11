@@ -1,0 +1,159 @@
+{% extends 'final/reusable_html/base_layout.html' %}
+
+{% load static %}
+
+{% block page_title %}Recent activity{% endblock %}
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/teacher/table.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/filter.css' %}">
+{% endblock %}
+
+{% block extra_js_files %}<script src="{% static 'final/js/toggle_filters.js' %}"></script>{% endblock %}
+
+{% block page_content%}
+  <div class="dashboard-container">
+
+      {% include "final/reusable_html/admin_sidebar.html" %}
+
+      <main class="main-content">
+          <header>
+              <h1>View Recent Activity</h1>
+          </header>
+
+
+          <!-- Toggle button -->
+          <button type="button" onclick="toggleFilters(true)">
+              Open Filters
+          </button>
+
+          <!-- Overlay -->
+
+          <div id="filterSidebarOverlay" class="sidebar-overlay"></div>
+
+          <!-- Sidebar -->
+          <div id="filterSidebar" class="right-sidebar">
+
+              <!-- Header -->
+              <div class="sidebar-header">
+                  <h4>Filters</h4>
+                  <button type="button" onclick="toggleFilters(false)">&times;</button>
+              </div>
+
+              <form method="GET" id="filterForm">
+
+                  <!-- Chips -->
+                  <div id="filterChips" class="chips-container"></div>
+
+                  <!-- Body -->
+                  <div class="sidebar-body">
+
+
+                      <!-- QUICK DATE RANGE -->
+                      <fieldset>
+                          <legend>Date Filter</legend>
+
+                          <label>
+                              <input type="radio" name="mode" value="quick"
+                                     {% if mode != "custom" %}checked{% endif %}
+                                     onchange="toggleMode('quick')">
+                              Quick
+                          </label>
+
+                          <select name="quick_range" id="quickRange"
+                                  {% if mode == "custom" %}disabled{% endif %}>
+                          <option value="today" {% if quick_range == "today" %}selected{% endif %}>
+                          Today
+                          </option>
+                          <option value="3" {% if quick_range == "3" %}selected{% endif %}>
+                          Last 3 days
+                          </option>
+                          <option value="7" {% if quick_range == "7" %}selected{% endif %}>
+                          Last 7 days
+                          </option>
+                          </select>
+                      </fieldset>
+
+                      <!-- CALENDAR RANGE -->
+                      <fieldset>
+                          <label>
+                              <input type="radio" name="mode" value="custom"
+                                     {% if mode == "custom" %}checked{% endif %}
+                              onchange="toggleMode('custom')">
+                              Custom range
+                          </label>
+
+                          <label>
+                              From:
+                              <input type="date" name="from_date" id="fromDate"
+                                     value="{{ from_date }}"
+                                     {% if mode != "custom" %}disabled{% endif %}>
+                          </label>
+
+                          <label>
+                              To:
+                              <input type="date" name="to_date" id="toDate"
+                                     value="{{ to_date }}"
+                                     {% if mode != "custom" %}disabled{% endif %}>
+                          </label>
+                      </fieldset>
+
+
+                  </div>
+
+                  <!-- Footer -->
+                  <div class="sidebar-footer">
+                      <button type="submit" class="btn btn-primary w-100">
+                          Apply Filters
+                      </button>
+
+                      <a href="?" class="btn btn-outline-secondary w-100 mt-2">
+                          Clear Filters
+                      </a>
+                  </div>
+              </form>
+
+
+          </div>
+              <section >
+                  {% if issues %}
+                  <div class="category-block">
+                      <table>
+                          <thead>
+                          <tr>
+                              <th>Form Date</th>
+                          <th>Roll No.</th>
+                          <th>Component</th>
+                              <th>Category</th>
+                          <th>Quantity Issued</th>
+                          <th>Issue Date</th>
+                              <th>Return Date</th>
+                          </tr>
+                          </thead>
+
+                          <tbody>
+                          {% for item in issues %}
+                          <tr>
+                              <td>{{ item.std_issue_form_date }}</td>
+                              <td>{{ item.student.std_roll_number}}</td>
+                              <td>{{ item.component.comp_name }}</td>
+                              <td>{{ item.component.comp_category.comp_cate_category_name }}</td>
+                              <td>{{ item.std_issue_quantity_issued }}</td>
+                              <td>{{ item.std_issue_issue_date|default:"Not issued" }}</td>
+                              <td>{{ item.std_issue_return_date|default:"Not returned" }}</td>
+                          </tr>
+                          {% endfor %}
+                          </tbody>
+                      </table>
+
+
+                  </div>
+                  {% else %}
+                  <p class="empty">No recent activity according to your filters.</p>
+                  {% endif %}
+              </section>
+                </main>
+          </div>
+{% endblock %}

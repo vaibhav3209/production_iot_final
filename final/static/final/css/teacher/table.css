@@ -1,0 +1,142 @@
+.category-block {
+    margin-bottom: 40px;
+}
+
+.category-block h4 {
+    font-size: 1.2rem;
+    color: #6c63ff;
+    margin-bottom: 12px;
+}
+
+
+.category-block table{
+border:1;
+cells-pacing:0;
+cell-padding:8;
+margin-top: 10px;
+width: 100%;
+border-collapse: collapse;
+margin-bottom: 20px;
+background: #fafafa;
+border-radius: 8px;
+overflow: hidden;
+
+    table-layout: fixed;
+
+}
+
+.category-block thead {
+    background: #6c63ff;
+    color: white;
+}
+
+.category-block thead th {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.category-block tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+}
+
+
+/* Row Hover */
+.category-block tbody tr {
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.category-block tbody tr:hover {
+    background-color: #eef0ff;
+    transform: translateY(-2px);
+}
+
+
+.edit-btn {
+    padding: 6px 12px;
+    background-color: #fdd835 ;
+    color: black;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    margin-top: -3px;
+}
+
+
+.view-all-btn {
+    padding: 6px 12px;
+    background-color: #4caf50;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    margin-top: -3px;
+}
+
+
+
+.view-all-btn:hover {
+    background-color: #45a049;
+}
+
+.view-all-btn:active {
+    background-color: #3e8e41;
+    transform: scale(0.97);
+}
+
+.btn-reject {
+    padding: 6px 12px;
+    background-color: #f44336; ;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    margin-top: -3px;
+}
+
+
+.empty {
+    text-align: center;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px dashed #bbb;
+    border-radius: 8px;
+    color: #666;
+    font-style: italic;
+
+}
+
+/*Edit row*/
+.edit-form {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.edit-form input,
+.edit-form select,
+.edit-form button {
+    padding: 6px 8px;
+}
+
+
+
+@media (max-width: 768px) {
+        .category-block {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+    .category-block table {
+        table-layout: auto;
+    }
+    }

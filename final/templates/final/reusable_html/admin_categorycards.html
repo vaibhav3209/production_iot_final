@@ -1,0 +1,45 @@
+{% load static %}
+<div class="card-container">
+    <div class="card">
+        <a href="{% url 'final:inventory_items' 'Microcontrollers / Boards' %}">
+            <img src="{% static 'final/images/microcontroller.jpg' %}"
+                 alt="Microcontrollers">
+            <h3>Microcontrollers</h3>
+        </a>
+    </div>
+
+    <div class="card">
+        <a href="{% url 'final:inventory_items' 'Sensors' %}">
+            <img src="{% static 'final/images/sensors.jpg' %}" alt="Sensors">
+            <h3>Sensors</h3>
+        </a>
+    </div>
+
+    <div class="card">
+        <a href="{% url 'final:inventory_items' 'Actuators' %}">
+            <img src="{% static 'final/images/actuators.png' %}" alt="Actuators">
+            <h3>Actuators</h3>
+        </a>
+    </div>
+
+    <div class="card">
+        <a href="{% url 'final:inventory_items' 'Electric Components' %}">
+            <img src="{% static 'final/images/el.jpg' %}" alt="Electric Components">
+            <h3>Electric Components</h3>
+        </a>
+    </div>
+
+    <div class="card">
+        <a href="{% url 'final:inventory_items' 'Displays' %}">
+            <img src="{% static 'final/images/display.webp' %}" alt="Displays">
+            <h3>Displays</h3>
+        </a>
+    </div>
+
+    <div class="card">
+        <a href="{% url 'final:inventory_items' 'Miscellaneous' %}">
+            <img src="{% static 'final/images/misc.jpg' %}" alt="Miscellaneous">
+            <h3>Miscellaneous</h3>
+        </a>
+    </div>
+</div>

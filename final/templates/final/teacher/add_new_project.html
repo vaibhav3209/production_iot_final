@@ -1,0 +1,148 @@
+{% extends 'final/reusable_html/base_layout.html' %}
+
+{% load static %}
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/messages.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/student/project_cards.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/teacher/add_component_button.css' %}">
+{% endblock %}
+
+
+{% block page_title %}All Projects{% endblock %}
+
+{% block extra_js_files %}<script src="{% static 'final/js/add_new_project.js' %}"></script>{% endblock %}
+
+
+{% block page_content%}
+<div class="dashboard-container">
+
+{% include "final/reusable_html/admin_sidebar.html" %}
+
+ <main class="main-content">
+    <header>
+        <h1>All Available Projects</h1>
+    </header>
+
+
+     <div class="message-container ">
+         {% for message in messages %}
+             {% if "add_project_error" in message.tags %}
+                <p class="error-message">{{ message }}</p>
+             {% endif %}
+
+         {% if "add_project_success" in message.tags %}
+                <p class="error-message">{{ message }}</p>
+             {% endif %}
+         {% endfor %}
+     </div>
+
+             <!-- Add button -->
+        <div class="component-add">
+            <button type="button" id="openAddRow" class="component-add__btn">
+                + New Project
+            </button>
+        </div>
+
+        <!-- Hidden popup form -->
+     <form id="addComponentForm"
+           class="component-modal"
+           method="POST"
+           action="{% url 'final:add_new_project' %}">
+         {% csrf_token %}
+
+         <div class="component-modal__box">
+             <h3 class="component-modal__title">Add New Project</h3>
+
+             <input type="text"
+                    name="project_name"
+                    placeholder="Project Name"
+                    required
+                    class="component-modal__input">
+
+
+             <select name="faculty" id="faculty" class="component-modal__select">
+                 <option value="">-- Select Faculty --</option>
+
+                 {% for faculty in faculties %}
+                 <option value="{{ faculty.id }}"
+                         {% if item.avail_proj_faculty_associated.id == faculty.id %}
+                         selected
+                         {% endif %}
+                 >
+                     {{ faculty.faculty_name }}
+                 </option>
+                 {% endfor %}
+             </select>
+
+             <div class="component-modal__actions">
+                 <button type="submit" class="component-modal__save">
+                     Save
+                 </button>
+
+                 <button type="button" id="cancelForm" class="component-modal__cancel">
+                     Cancel
+                 </button>
+             </div>
+         </div>
+     </form>
+
+     <section>
+        {% if projects %}
+         <div class="card-container">
+             {% for item in projects %}
+             <div class="card project-card">
+                 <h2 class="project-title">
+                     {{ item.avail_proj_project_name }}
+                 </h2>
+
+                 <p class="faculty-name">
+                     Faculty: {{ item.avail_proj_faculty_associated.faculty_name }}
+                 </p>
+                 <!-- Edit icon -->
+                 <span class="edit-icon">✏️</span>
+
+                 <!-- EDIT MODE -->
+                 <form method="POST"
+                       action="{% url 'final:add_new_project' %}"
+                       class="card-edit"
+                       style="display:none;">
+                     {% csrf_token %}
+
+                     <!-- 🔑 hidden flags -->
+                     <input type="hidden" name="action" value="edit">
+                     <input type="hidden" name="project_id" value="{{ item.id }}">
+
+                     <input type="text"
+                            name="project_name"
+                            value="{{ item.avail_proj_project_name }}"
+                            required>
+
+                     <select name="faculty" required>
+                         {% for faculty in faculties %}
+                         <option value="{{ faculty.id }}"
+                                 {% if faculty.id == item.avail_proj_faculty_associated.id %}
+                                 selected
+                                 {% endif %}
+                         >
+                             {{ faculty.faculty_name }}
+                         </option>
+                         {% endfor %}
+                     </select>
+
+                     <button type="submit">Save</button>
+                     <button type="button" class="cancel-edit">Cancel</button>
+                 </form>
+
+             </div>
+             {% endfor %}
+            </div>
+        {% else %}
+            <h4>No projects available</h4>
+        {% endif %}
+    </section>
+</main>
+</div>
+{% endblock %}

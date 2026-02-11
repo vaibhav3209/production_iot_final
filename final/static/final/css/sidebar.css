@@ -1,0 +1,69 @@
+.sidebar {
+  width: 220px;
+  background-color: #0b3d91;
+  color: white;
+  padding: 1.5rem;
+          transition: left 0.3s ease;
+}
+
+.sidebar h2 {
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color:white;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li {
+  margin: 1rem 0;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sidebar ul li a:hover {
+  text-decoration: underline;
+}
+
+/* `all: unset` for logout button ==>> button css REMOVED and behave like text*/
+.sidebar ul li .as-link {
+  all: unset;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sidebar ul li .as-link:hover {
+  text-decoration: underline;
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -260px;
+        width: 220px;
+        height: 100vh;
+        background-color: #0b3d91;
+        z-index: 1000;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+    }
+
+    .sidebar.active {
+        left: 0 ;
+    }
+     .sidebar h2 {
+        cursor: pointer;
+        user-select: none;
+    }
+    .main-content {
+        margin-left: 0;
+    }
+}

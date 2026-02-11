@@ -1,0 +1,109 @@
+/* ─── Overlay ─── */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  z-index: 998;
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* ─── Sidebar ─── */
+
+.right-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 250px;
+  max-width: 90%;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.15);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+}
+
+.right-sidebar.open {
+  transform: translateX(0);
+}
+
+
+/* ─── Header ─── */
+.sidebar-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-header button {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* ─── Body ─── */
+.sidebar-body {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* ─── Footer ─── */
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* ─── Filter Groups ─── */
+.filter-group {
+  margin-bottom: 14px;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ─── Inputs ─── */
+.form-control {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* ─── Chips ─── */
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 16px 0;
+}
+
+.chip {
+  background: #e5e7eb;
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+}
+
+.chip button {
+  margin-left: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}

@@ -1,0 +1,185 @@
+{% extends 'final/reusable_html/base_layout.html' %}
+
+{% load static %}
+
+{% block page_title %}welcome admin{% endblock %}
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/teacher/table.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/filter.css' %}">
+{% endblock %}
+
+{% block extra_js_files %}<script src="{% static 'final/js/toggle_filters.js' %}"></script>{% endblock %}
+
+{% block page_content%}
+  <div class="dashboard-container">
+
+{% include "final/reusable_html/admin_sidebar.html" %}
+
+      <main class="main-content">
+          <header>
+              <h1>List of all students</h1>
+          </header>
+
+
+          <!-- Toggle button -->
+          <button type="button" onclick="toggleFilters(true)">
+              Open Filters
+          </button>
+
+          <!-- Overlay -->
+
+          <div id="filterSidebarOverlay" class="sidebar-overlay"></div>
+
+          <!-- Sidebar -->
+          <div id="filterSidebar" class="right-sidebar">
+
+              <!-- Header -->
+              <div class="sidebar-header">
+                  <h4>Filters</h4>
+                  <button type="button" onclick="toggleFilters(false)">&times;</button>
+              </div>
+
+              <form method="GET" id="filterForm">
+
+                  <!-- Chips -->
+                  <div id="filterChips" class="chips-container"></div>
+
+                  <!-- Body -->
+                  <div class="sidebar-body">
+
+                      <!-- Branch-->
+                      <div class="filter-group">
+                          <label><strong>Branch</strong></label>
+
+                          <div class="checkbox-group">
+                              {% for b in branches_list %}
+                              <label class="checkbox-item">
+                                  <input type="checkbox"
+                                         name="branch"
+                                         value="{{ b.branches_branch_code }}"
+                                         {% if b.branches_branch_code in selected_branches %}checked{% endif %}
+                                         onchange="updateChips()">
+                                  {{ b.branches_branch_code }}
+                              </label>
+                              {% endfor %}
+                          </div>
+                      </div>
+
+                      <!-- Year   -->
+                      <div class="filter-group">
+                          <label><strong>Year</strong></label>
+
+                          <div class="checkbox-group">
+                              {% for y in "12345" %}
+                              <label class="checkbox-item">
+                                  <input type="checkbox"
+                                         name="year"
+                                         value="{{ y }}"
+                                         {% if y in selected_years %}checked{% endif %}
+                                         onchange="updateChips()">
+                                  Year {{ y }}
+                              </label>
+                              {% endfor %}
+                          </div>
+                      </div>
+
+
+                      <div class="filter-group">
+                          <label><strong>Name</strong></label>
+
+                          <select name="name_mode" class="select w-100 mb-2"
+                                  onchange="updateChips()">
+                              <option value="startswith" {% if name_mode == "startswith" %}selected{% endif %}>
+                              Starts with
+                              </option>
+                              <option value="contains" {% if name_mode == "contains" %}selected{% endif %}>
+                              Contains
+                              </option>
+                          </select>
+
+                          <input type="text"
+                                 name="name"
+                                 value="{{ name_query|default:'' }}"
+                                 placeholder="Enter student name"
+                                 class="text-input w-100"
+                                 oninput="updateChips()">
+                      </div>
+
+
+                  </div>
+
+                  <!-- Footer -->
+                  <div class="sidebar-footer">
+                      <button type="submit" class="btn btn-primary w-100">
+                          Apply Filters
+                      </button>
+
+                      <a href="?" class="btn btn-outline-secondary w-100 mt-2">
+                          Clear Filters
+                      </a>
+                  </div>
+              </form>
+          </div>
+
+
+
+              <section >
+                  {% if page_obj %}
+                  <div class="category-block">
+                      <h4>{{ category }}</h4>
+                      <table>
+                          <thead>
+                          <tr>
+                              <th>Roll Number</th>
+                              <th>Name</th>
+                              <th>Year</th>
+                              <th>Branch</th>
+                          </tr>
+                          </thead>
+
+                          <tbody>
+                          {% for student in page_obj %}
+                          <tr>
+                              <td><a href="{% url 'final:student_details' student.std_id %}">
+                                  {{ student.std_roll_number }}
+                              </a>
+                              </td>
+                              <td>{{ student.std_full_name|title}}</td>
+                              <td>{{ student.std_year }}</td>
+                              <td>{{ student.std_branch.branches_branch_code }}</td>
+                          </tr>
+                          {% endfor %}
+                          </tbody>
+                      </table>
+
+                      <!-- ✅ PAGINATION GOES HERE Isko test karna -->
+                      <div class="pagination">
+
+                          {% if page_obj.has_previous %}
+                          <a href="?{{ querystring }}&page={{ page_obj.previous_page_number }}">
+                              ◀ Prev
+                          </a>
+                          {% endif %}
+
+                          <span>Page {{ page_obj.number }}  </span>
+
+                          {% if page_obj.has_next %}
+                          <a href="?{{ querystring }}&page={{ page_obj.next_page_number }}">
+                              Next ▶
+                          </a>
+                          {% endif %}
+
+                      </div>
+
+
+                  </div>
+                  {% else %}
+                  <p class="empty">No Students enrolled.</p>
+                  {% endif %}
+              </section>
+                </main>
+          </div>
+{% endblock %}

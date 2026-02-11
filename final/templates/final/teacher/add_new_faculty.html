@@ -1,0 +1,139 @@
+{% extends 'final/reusable_html/base_layout.html' %}
+
+{% load static %}
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/messages.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/student/project_cards.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/teacher/add_component_button.css' %}">
+{% endblock %}
+
+
+{% block page_title %}All Projects{% endblock %}
+
+{% block extra_js_files %}<script src="{% static 'final/js/add_new_project.js' %}"></script>{% endblock %}
+
+
+{% block page_content%}
+<div class="dashboard-container">
+
+{% include "final/reusable_html/admin_sidebar.html" %}
+
+ <main class="main-content">
+    <header>
+        <h1>Faculties</h1>
+    </header>
+
+
+     <div class="message-container ">
+         {% for message in messages %}
+             {% if "add_project_error" in message.tags %}
+                <p class="error-message">{{ message }}</p>
+             {% endif %}
+
+         {% if "add_project_success" in message.tags %}
+                <p class="error-message">{{ message }}</p>
+             {% endif %}
+         {% endfor %}
+     </div>
+
+<!-- Add button -->
+<div class="component-add">
+    <button type="button" id="openAddRow" class="component-add__btn">
+        + New Faculty
+    </button>
+</div>
+
+<form id="addComponentForm"
+      class="component-modal"
+      method="POST"
+      action="{% url 'final:add_new_faculty' %}">
+    {% csrf_token %}
+
+    <div class="component-modal__box">
+        <h3 class="component-modal__title">Add New Faculty</h3>
+
+        <input type="text"
+               name="faculty_name"
+               placeholder="Faculty Name"
+               required
+               class="component-modal__input">
+
+        <select name="branch" class="component-modal__select" required>
+            <option value="">-- Select Department --</option>
+            {% for branch in branches %}
+                <option value="{{ branch.id }}">
+                    {{ branch.branches_branch_name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <div class="component-modal__actions">
+            <button type="submit" class="component-modal__save">Save</button>
+            <button type="button" id="cancelForm" class="component-modal__cancel">
+                Cancel
+            </button>
+        </div>
+    </div>
+</form>
+
+
+   <section>
+{% if faculties %}
+<div class="card-container">
+    {% for item in faculties %}
+    <div class="card project-card">
+
+        <!-- VIEW MODE -->
+        <div class="card-view">
+            <h2 class="project-title">{{ item.faculty_name }}</h2>
+            <p class="faculty-name">
+                Dept: {{ item.faculty_dept.branches_branch_name }}
+            </p>
+            <span class="edit-icon">✏️</span>
+        </div>
+
+        <!-- EDIT MODE -->
+        <form method="POST"
+              action="{% url 'final:add_new_faculty' %}"
+              class="card-edit"
+              style="display:none;">
+            {% csrf_token %}
+
+            <input type="hidden" name="action" value="edit">
+            <input type="hidden" name="faculty_id" value="{{ item.id }}">
+
+            <input type="text"
+                   name="faculty_name"
+                   value="{{ item.faculty_name }}"
+                   required>
+
+            <select name="branch" required>
+                {% for branch in branches %}
+                <option value="{{ branch.id }}"
+                    {% if branch.id == item.faculty_dept_id %}
+                        selected
+                    {% endif %}
+                >
+                    {{ branch.branches_branch_name }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Save</button>
+            <button type="button" class="cancel-edit">Cancel</button>
+        </form>
+
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <h4>No faculty available</h4>
+{% endif %}
+</section>
+
+</main>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+<!-- Toggle button -->
+<button id="toggleSidebarBtn" class="request-btn-top-right">
+    Request Components
+</button>
+
+<!-- Overlay -->
+<div id="requestSidebarOverlay" class="sidebar-overlay">
+
+    <!-- Sidebar -->
+    <div id="requestSidebar" class="right-sidebar">
+
+        <div class="sidebar-header">
+            <h4>Selected Components</h4>
+            <button id="closeSidebar">&times;</button>
+        </div>
+
+        <form id="componentRequestForm" method="POST" action="{% url 'final:submit_request' %}">
+            {% csrf_token %}
+
+            <div class="project-dropdown">
+    <label for="projectSelect"><strong>Select Project</strong></label>
+
+    <select name="project_id" id="projectSelect" class="form-control" required>
+        <option value="" disabled selected>Select a project</option>
+        {% for enrollment in enrolled_projects %}
+            <option value="{{ enrollment.proj_enroll_project.id }}">
+                {{ enrollment.proj_enroll_project.avail_proj_project_name }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+            <!-- JS will populate hidden inputs -->
+            <div id="form-hidden-fields"></div>
+
+            <!-- JS will populate selected components -->
+            <div id="selected-components-list"></div>
+
+            <button type="submit" id="confirmRequestBtn" class="btn btn-primary mt-3">
+                Confirm Request
+            </button>
+
+            <button type="button" id="clearListBtn" class="btn btn-danger mt-2">
+                Clear All
+            </button>
+        </form>
+
+    </div>
+</div>

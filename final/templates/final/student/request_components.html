@@ -1,0 +1,51 @@
+{% extends 'final/reusable_html/base_layout.html' %}
+
+{% load static %}
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/messages.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/student/category_cards.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/student/request_sidebar.css' %}">
+{% endblock %}
+
+{% block page_title %}Components{% endblock %}
+
+{% block extra_js_files %}
+<script src="{% static 'final/js/sidebar.js' %}"></script>
+<script src="{% static 'final/js/request_sidebar.js' %}"></script>
+{% endblock %}
+
+{% block page_content %}
+<div class="dashboard-container">
+
+{% include "final/reusable_html/sidebar.html" %}
+
+    <main class="main-content">
+
+        <header class="top-header">
+            <span class="mobile-iot-toggle" id="mobilesidebarToggle">IoT</span>
+        </header>
+
+        <!-- Right Button and its sidebar for request approving -->
+        {% include "final/reusable_html/request_sidebar.html" %}
+
+        <div class="message-container">
+            {% for message in messages %}
+                  {% if "error_requestcomp" in message.tags %}
+                        <p class="error-message">{{ message }}</p>
+                  {% endif %}
+
+                  {% if "success_requestcomp" in message.tags %}
+                        <p class="success-message">{{ message }}</p>
+                  {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- For category cards  -->
+        {% include "final/reusable_html/categorycards.html" %}
+    </main>
+
+</div>
+{% endblock %}

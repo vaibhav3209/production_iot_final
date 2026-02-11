@@ -1,0 +1,114 @@
+.request-btn-top-right {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1000;
+     justify-content: center; /* - centers horizontally */
+    align-items: center; /*  - centers vertically */
+}
+
+.right-sidebar {
+    position: relative;
+    top: auto;
+    right: auto;
+    height: auto;
+    max-height: 90vh;
+    width: 380px;
+    max-width: 90%;
+    background: #f9f9f9;
+    border-left: 1px solid #ddd;
+    box-shadow: -4px 0 12px rgba(0,0,0,0.15);
+
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+
+    /* animation */
+    transform: scale(0.7);
+    opacity: 0;
+    transition: transform 0.3s ease,opacity 0.3s ease;
+   overflow-y: auto; /*  - scrollable if content is long */
+}
+
+/* when active */
+.sidebar-overlay.active {
+    display: flex;
+}
+
+.sidebar-overlay.active .right-sidebar {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+}
+
+.sidebar-header h4 {
+    margin: 0;
+}
+
+/* Selecting for Project section */
+.project-display-section {
+    background-color: #f0f0f0;
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 4px solid #9333ea;
+}
+
+.project-display-section p {
+    margin: 0;
+    color: #333;
+}
+
+#projectNameDisplay {
+    color: #9333ea;
+    font-weight: 600;
+}
+
+.change-project-btn {
+    display: inline-block;
+    background-color: #6b7280;
+    color: white;
+    padding: 4px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 8px;
+    transition: background-color 0.3s;
+}
+
+.change-project-btn:hover {
+    background-color: #4b5563;
+    color: white;
+    text-decoration: none;
+}
+
+
+/* i  don;t know about this*/
+#closeSidebar {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+

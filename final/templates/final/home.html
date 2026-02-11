@@ -1,0 +1,59 @@
+{% extends 'final/reusable_html/base_layout.html' %}
+
+{% load static %}
+
+{% block extra_css_files %}<link rel="stylesheet" href="{% static 'final/css/home.css' %}">{% endblock %}
+
+{% block page_title %}IoT Inventory Management{% endblock %}
+
+{% block page_content%}
+<header>
+    <div class="container">
+      <h1>IoT Inventory Management System</h1>
+      <nav>
+  <a href="#features">Features</a>
+          <a href="{% url 'final:login' %}">Login</a>
+  <a href="#contact">Contact</a>
+
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h2>Smart, Simple & Secure IoT Inventory Tracking</h2>
+      <p>Manage lab components, issue equipment, and track student projects with ease.</p>
+      <a href="#register" class="btn">Get Started</a>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="container">
+      <h3>Key Features</h3>
+      <ul>
+        <li>Live Inventory Tracking</li>
+        <li>Secure Component Issuing</li>
+        <li>Project and Event Tracking</li>
+        <li>Admin Control Panel</li>
+      </ul>
+    </div>
+  </section>
+  <section id="contact" class="contact-section">
+  <h2>Contact Us</h2>
+  <p>If you have questions about components, returns, or projects, feel free to reach out.</p>
+
+  <form class="contact-form">
+    <input type="text" placeholder="Your Name" required />
+    <input type="email" placeholder="Your College Email" required />
+    <textarea placeholder="Your Message" rows="5" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 IoT Lab | All rights reserved.</p>
+    </div>
+  </footer>
+{% endblock  %}

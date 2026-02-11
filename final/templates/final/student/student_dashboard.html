@@ -1,0 +1,77 @@
+{% extends 'final/reusable_html/base_layout.html' %}
+
+{% load static %}
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/messages.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/student/project_cards.css' %}">
+{% endblock %}
+
+{% block page_title %}Student dashboard{% endblock %}
+
+{% block extra_js_files %}
+<script src="{% static 'final/js/sidebar.js' %}"></script>
+{% endblock %}
+
+{% block page_content%}
+<div class="dashboard-container">
+
+{% include "final/reusable_html/sidebar.html" %}
+
+    <main class="main-content">
+
+        <header class="top-header">
+            <span class="mobile-iot-toggle" id="mobilesidebarToggle">IoT</span>
+        </header>
+
+        <header>
+            <h1>Welcome, {{ student.std_full_name|title }}</h1>
+        </header>
+
+        <div class="message-container ">
+            {% for message in messages %}
+            {% if "enroll_success" in message.tags %}
+            <p class="success-message">{{ message }}</p>
+            {% endif %}
+
+            {% endfor %}
+        </div>
+
+        <section>
+            <div class="section-header">
+                <h2>Enrolled Projects</h2>
+                <a href="{% url 'final:enroll_in_projects' %}" class="view-all-btn">View all
+                </a>
+            </div>
+
+            {% if enrolled_projects %}
+            <div class="card-container">
+                {% for project in enrolled_projects %}
+                <div class="project-card">
+
+                    <h2 class="project-title">
+                        {{ project.proj_enroll_project.avail_proj_project_name }}
+                    </h2>
+
+                    <p class="faculty-name">
+                        Faculty: {{ project.proj_enroll_project.avail_proj_faculty_associated.faculty_name }}
+                    </p>
+
+                    <a href="{% url 'final:issued_items' %}?project_id={{ project.proj_enroll_project.id }}" class="btn btn-secondary" >
+                        View Issued Components
+                    </a>
+
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="no-projects-msg">You are not enrolled in any projects yet.</p>
+            {% endif %}
+        </section>
+
+    </main>
+
+</div>
+{% endblock %}

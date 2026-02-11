@@ -1,0 +1,62 @@
+Read about these.....
+1. django rest framework API
+    a. How its called?
+    b.
+
+
+2. Redis Cache. vs LocalmemCache,
+    a. how it is done etc etc
+
+
+3. Django Orm
+    a. when does it hit DB..... Lazy query one
+    b . all the queries and their equivilaent sql also
+
+4.  js local storage vs Cache
+
+
+5. How did you applied sdlc in your project...
+
+
+6. OOPS concepts used in this or being used internally by django
+
+
+7. Database Design, INdexing , etc
+
+
+8. Security and computer Networks Routing etc
+
+
+9. Typesd of error in your Project like validation error and INtegrity error in areas like
+  constraints = [
+            models.CheckConstraint(
+                check=Q(std_roll_number__regex=
+
+and,,,,,,,,,,,,
+    std_roll_number = models.CharField(max_length=10,null=False,unique=True, validators=[
+        roll_validator])
+
+
+        these are 2 differnet things....
+
+
+
+=============================================================
+10. Basic interview Quesrtions (Poora Study karo Matlab in topics ko )
+    - Why did you use Djnago instead of flask
+    - What is Django ==>> db based web application, Web framework ,, named after romanian guitarist
+    ==>> server side framework which has libraries packages designed to spped up development
+
+    - Where is djangonused in real industries ?
+    - Django arch. MVC
+    - Djnago commands ,, admin features
+    - initalization of the project pe konsi files banti hai
+    - Why did you use js intead of react js
+    - ******        no sql vs SQL ????   *************
+    - WHAT is ORM?? ==>> used to connect classes in python with db
+    - Cookie vs Sessions
+
+    *** HTTP is stateless hence we can;t store infobetween multiple reuqests that's why they are used  ***
+    cookie                                                          sessions
+==> client side                                                     server
+==>> no private info stored at client side                          yes

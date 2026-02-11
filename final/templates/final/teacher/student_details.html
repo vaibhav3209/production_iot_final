@@ -1,0 +1,106 @@
+{% extends 'final/reusable_html/base_layout.html' %}
+
+{% load static %}
+
+{% block page_title %}welcome admin{% endblock %}
+
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/teacher/table.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/teacher/student_profile.css' %}">
+{% endblock %}
+
+
+
+{% block page_content%}
+  <div class="dashboard-container">
+
+<!-- Take admin sidebar from this file below.  -->
+{% include "final/reusable_html/admin_sidebar.html" %}
+
+    <main class="main-content">
+
+        <h1>Student Profile</h1>
+
+        <header class="profile-card">
+
+            <div class="info-row">
+                <span class="info-label">Full Name:</span>
+                <span class="info-value">{{ student.std_full_name|title }}</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Phone:</span>
+                <span class="info-value">{{ student.std_phone_number}}</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">College ID:</span>
+                <span class="info-value">{{ student.std_college_email }}</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Roll Number:</span>
+                <span class="info-value">{{ student.std_roll_number }}</span>
+            </div>
+
+
+            <div class="info-row">
+                <span class="info-label">Branch:</span>
+                <span class="info-value">{{ student.std_branch }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Year:</span>
+                <span class="info-value">{{ student.std_year }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Joined at: </span>
+                <span class="info-value">{{ student.std_joined_at }}</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Deactivated at: </span>
+                <span class="info-value">{{ student.std_deactivated_at }}</span>
+            </div>
+
+        </header>
+
+        <h1>Component Issue History</h1>
+        <section>
+            <div class="category-block">
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Issue Date</th>
+                        <th>Component</th>
+                        <th>Category</th>
+                        <th>Qty issued</th>
+                        <th>Return Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for issue in issued_components %}
+                    <tr>
+                        <td>{{ issue.std_issue_issue_date|default:"Not issued" }}</td>
+                        <td>{{ issue.component.comp_name }}</td>
+                        <td>{{ issue.component.comp_category.comp_cate_category_name }}</td>
+                        <td>{{ issue.std_issue_quantity_issued }}</td>
+                        <td>
+                            {{ issue.std_issue_return_date|default:"Not returned" }}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">No components issued</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+  </div>
+{% endblock %}

@@ -1,0 +1,225 @@
+{% extends 'final/reusable_html/base_layout.html' %}
+
+{% load static %}
+
+{% block extra_css_files %}
+<link rel="stylesheet" href="{% static 'final/css/student/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/teacher/table.css' %}">
+<link rel="stylesheet" href="{% static 'final/css/filter.css' %}">
+{% endblock %}
+
+{% block extra_js_files %}
+<script src="{% static 'final/js/sidebar.js' %}"></script>
+<script src="{% static 'final/js/toggle_filters.js' %}"></script>
+{% endblock %}
+
+{% block page_title %}Student Isssued Items{% endblock %}
+
+{% block page_content %}
+<div class="dashboard-container">
+
+    <!--Take sidebar code from below file-->
+    {% include "final/reusable_html/sidebar.html" %}
+
+    <main class="main-content">
+
+        <header class="top-header">
+            <span class="mobile-iot-toggle" id="mobilesidebarToggle">IoT</span>
+        </header>
+
+
+       <!-- Toggle button -->
+<button type="button" onclick="toggleFilters(true)">
+    Open Filters
+</button>
+
+<!-- Overlay -->
+
+<div id="filterSidebarOverlay" class="sidebar-overlay"></div>
+
+<!-- Sidebar -->
+<div id="filterSidebar" class="right-sidebar">
+
+    <!-- Header -->
+    <div class="sidebar-header">
+        <h4>Filters</h4>
+        <button type="button" onclick="toggleFilters(false)">&times;</button>
+    </div>
+
+    <form method="GET" id="filterForm">
+
+        <!-- Chips -->
+        <div id="filterChips" class="chips-container"></div>
+
+        <!-- Body -->
+        <div class="sidebar-body">
+
+            <!-- Issue Status -->
+          <div class="filter-group">
+    <label><strong>Issue Status</strong></label>
+
+    <div class="radio-group">
+        <label class="radio-item">
+            <input type="radio" name="issue_status" value="" {% if not issue_status %}checked{% endif %}>
+            <span>Both</span>
+        </label>
+
+            <label class="radio-item">
+                <input type="radio" name="issue_status" value="current" {% if issue_status == "current" %}checked{% endif %}>
+                <span>Currently Issued</span>
+            </label>
+
+        <label class="radio-item">
+            <input type="radio" name="issue_status" value="returned"
+                   {% if issue_status == "returned" %}checked{% endif %}>
+            <span>Returned</span>
+        </label>
+    </div>
+</div>
+
+            <!-- Date Range (PRESETS) -->
+            <div class="filter-group">
+                <label><strong>Date Range</strong></label>
+
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+
+<!-- default mein ye checked rahega when no request.get -->
+                        <input type="radio" name="date_range" value="7"
+                               {% if request.GET.date_range == "7" or not request.GET.date_range %}checked{% endif %}>
+                        Last 7 Days
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="radio" name="date_range" value="15"
+                               {% if request.GET.date_range == "15" %}checked{% endif %}>
+                        Last 15 Days
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="radio" name="date_range" value="30"
+                               {% if request.GET.date_range == "30" %}checked{% endif %}>
+                        Last 1 Month
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="radio" name="date_range" value="90"
+                               {% if request.GET.date_range == "90" %}checked{% endif %}>
+                        Last 3 Months
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="radio" name="date_range" value="all"
+                               {% if request.GET.date_range == "all" %}checked{% endif %}>
+                        All Time
+                    </label>
+                </div>
+            </div>
+
+            <!-- Category (6 STATIC OPTIONS) -->
+            <div class="filter-group">
+                <label><strong>Category</strong></label>
+
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="category" value="Actuators"
+                               {% if "Actuators" in selected_categories %}checked{% endif %}>
+                        Actuators
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="category" value="Electric Components"
+                               {% if "Electric Components" in selected_categories %}checked{% endif %}>
+                        Electric Components
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="category" value="Displays"
+                               {% if "Displays" in selected_categories %}checked{% endif %}>
+                        Displays
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="category" value="Sensors"
+                               {% if "Sensors" in selected_categories %}checked{% endif %}>
+                        Sensors
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="category" value="Microcontrollers / Boards"
+                               {% if "Microcontrollers / Boards" in selected_categories %}checked{% endif %}>
+                        Microcontrollers / Boards
+                    </label>
+
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="category" value="Miscellaneous"
+                               {% if "Miscellaneous" in selected_categories %}checked{% endif %}>
+                        Miscellaneous
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="sidebar-footer">
+            <button type="submit" class="btn btn-primary w-100">
+                Apply Filters
+            </button>
+
+            <a href="?" class="btn btn-outline-secondary w-100 mt-2">
+                Clear Filters
+            </a>
+        </div>
+
+    </form>
+</div>
+
+        <section>
+            <h3>📦 Issued Components Log</h3>
+
+            <div class="category-block">
+                {% if issued_items %}
+
+                <!--check if this class is defined or not  -->
+                <table class="issues-table">
+                    <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Component</th>
+                        <th>Project</th>
+                        <th>Quantity</th>
+                        <th>Issue Date</th>
+                        <th>Return Date</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for log in issued_items %}
+                    <tr>
+                        <td>{{ log.component.comp_category }}</td>
+                        <td>{{ log.component.comp_name }}</td>
+                        <td>{{ log.project.avail_proj_project_name }}</td>
+                        <td>{{ log.std_issue_quantity_issued }}</td>
+                        <td>{{ log.std_issue_issue_date }}</td>
+
+                        <td>
+                            {% if log.std_issue_return_date %}
+                            {{ log.std_issue_return_date }}
+                            {% else %}
+                            <span>Not returned</span>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="empty">No records match the selected filters.</p>
+                {% endif %}
+        </section>
+    </main>
+</div>
+{% endblock %}
