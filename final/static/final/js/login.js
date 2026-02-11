@@ -7,14 +7,10 @@
     document.getElementById(formId).classList.remove('hidden');
   }
 
-function togglePassword() {
-    const passwordInput = document.getElementById("password");
+function togglePassword(id) {
+    const passwordInput = document.getElementById(id);
 
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-    } else {
-        passwordInput.type = "password";
-    }
+ passwordInput.type = passwordInput.type === "password" ? "text" : "password";
 }
 
   // Default form on page load

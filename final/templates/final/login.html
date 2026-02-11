@@ -48,8 +48,11 @@
                 <!--Don't use validation here-->
                 <input type="text" name="username" placeholder="Enter RTU roll number" required/>
 
-                <input type="password" name="password" placeholder="Password" required/>
-
+            <div class="password-field">
+                <input type="password" id="loginpassword" name="password" placeholder="Enter Password"
+                       required>
+                <span class="toggle-password" onclick="togglePassword('loginpassword')">👁</span>
+            </div>
                 <button type="submit">Login</button>
 
                 <p class="switch-link" onclick="toggleForm('signup')">New user? Sign up here</p>
@@ -93,9 +96,9 @@
                    autocomplete="text"/>
 
             <div class="password-field">
-                <input type="password" id="password" name="password" placeholder="Set Password"
+                <input type="password" id="signuppassword" name="password" placeholder="Set Password"
                        required>
-                <span class="toggle-password" onclick="togglePassword(this)">👁</span>
+                <span class="toggle-password" onclick="togglePassword('signuppassword')">👁</span>
             </div>
 
             <input type="tel" name="phone_number" placeholder="Phone Number" required

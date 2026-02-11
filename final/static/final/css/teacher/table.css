@@ -21,13 +21,11 @@
 .category-block table {
     margin-top: 10px;
     width: 100%;
-    min-width: 1000px; /* ADD THIS - forces table to be wider */
     border-collapse: collapse;
     margin-bottom: 20px;
     background: #fafafa;
     border-radius: 8px;
 /*    overflow: hidden;*/
-    /* REMOVE table-layout: fixed; - this was the problem! */
 }
 
 .category-block thead {

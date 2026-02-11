@@ -9,7 +9,7 @@ function startQuantityControl(id, maxQty) {
  // Check if the control already exists
   if (!document.getElementById(`qty-${id}`)) {
     controlContainer.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 20px;">
         <button onclick="decrease(${id}, ${maxQty})">-</button>
         <input type="number" id="qty-${id}" value="1" min="1" max="${maxQty}" style="width: 40px; text-align:center;" readonly>
         <button onclick="increase(${id}, ${maxQty})">+</button>
