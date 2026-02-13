@@ -1,4 +1,38 @@
 Read about these.....
+--------------------------------------------------------
+question: WHY DO WE KEEP HTML CSS AND JS IN DIFFERNET FILES
+👉 Keep HTML, CSS, and JS separate in almost all real projects.
+
+Why separation is better (recommended):
+
+Cleaner & maintainable
+
+HTML → structure
+
+CSS → styling
+
+JS → behavior
+Easy to read, debug, and change later.
+
+Reusability
+
+One CSS file can style many pages.
+
+One JS file can be reused across pages.
+
+Performance
+
+Browsers cache .css and .js files → faster page loads.
+
+Especially important as your site grows (you’re already building a Django app).
+
+Team & future-proof
+
+Standard industry practice.
+
+Easier if you later add optimizations, bundlers, or frameworks.
+
+-----------------------------------------------------------------------
 1. django rest framework API
     a. How its called?
     b.
@@ -96,11 +130,17 @@ Electrical Components
       - Use Indexing for those fileds that are not Write heavy.
       and many more
 
+----- Also about N+1 queries and how they affect database calls.
+
 13. Which files servers what purpose sab pta karo..............
     like ===>>>  Put business logic in `models.py` file and HTML, session based(HTTPRequest) in ``views.py``.
 
 14. What are N+1 queries ==>> that run for every row for one table into full rows in another table
 
+
+15. *** ESTIMATE SIZE OF DATABASE: ***
+    - like size of every row in bytes ==>> total rows can be fit in 500mb db size in supabase.
+    -  size of bytes tranferred when a request is made
 =============================================================
 MISTAKES....................
 
