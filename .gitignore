@@ -23,6 +23,7 @@ config/.env
 
 #compoenents excel file
 withoutdate_components_2.xlsx
+IOT_Lab_Grouped_Category_Format.xlsx
 
 FINALCHECKS.txt
 studydjango_orm.txt

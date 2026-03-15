@@ -70,7 +70,6 @@ This project uses the following core technologies in production(***rest are incl
 
 `Requests` – HTTP client for external API calls.
 
-`Brevo (sib-api-v3-sdk)` – Email service integration.
 
 
 -------------------------------------------------------------------
@@ -147,7 +146,7 @@ This project uses the following core technologies in production(***rest are incl
 
 
 
-5. > 📌 **Remember:** IF NOT present,, make gitignore file and ⚠️!EXCLUDE ⚠️!EXCLUDE ⚠️!EXCLUDE .env from uploading to github.
+5. > 📌 **Remember:** IF NOT present,, make gitignore file and  ⚠️!EXCLUDE .env from uploading to github.
 
 
 6.  if you want Local databse, you can select `db.sqlite3` from `settings.py` and uncomment it.
@@ -374,6 +373,8 @@ reduce query load on databse.
 
 
 21. Add Github Branch Protection to secure it from `git push -- force` and every push will be made only by pull request. 
+
+22. > *** Maintain Security *** for mobile numbers in the database. 
 ---------------------------------------
 
 ## ⚠️ Implementation Problems 
@@ -416,9 +417,13 @@ depending upon the  availibilty and need per project.***
 - Cache for Student enrolled projects is the only Growing cache. Think to manage it.
 ------------------------------------------
 
-## Testing doubts for me :
+## Testing  :
 
 - see that the activity page in the teacher section query the databse again and again if we 
     change the page but not change the filters.
 
 - how many login can a student do from different devices. HOW will it work ?
+
+- Keep data secured in transit in network.(like passwords, api calls etc)
+
+- how are we controlling read and writes on the same table ???
