@@ -130,35 +130,38 @@ This project uses the following core technologies in production(***rest are incl
 4. Populate the .env file. (Take it from the team leader.)
     Fields for env file are:: 
 
-
-    DATABASE_URL (- ⚠️ The application will not start if `DATABASE_URL` is missing. Admin interface will not be available otherwise.)
-    SECRET_KEY : (make new key every time from django)
-    DEBUG=True/False
-    ALLOWED_HOSTS
-    ADMIN_PATH
-    SESSION_COOKIE_SECURE=True/False
-    CSRF_COOKIE_SECURE=True/False
-    SESSION_COOKIE_AGE=True/False
-    CSRF_TRUSTED_ORIGINS
-    MAIL_API_KEY
-    REDIS_URL
-
+    - DATABASE_URL  ⚠️ The application will not start if `DATABASE_URL` is missing. Admin interface will not be available otherwise.
+    - SECRET_KEY : (make new key every time from django)
+    - DEBUG=True/False
+    - ALLOWED_HOSTS
+    - ADMIN_PATH
+    - SESSION_COOKIE_SECURE=True/False
+    - CSRF_COOKIE_SECURE=True/False
+    - SESSION_COOKIE_AGE=True/False
+    - CSRF_TRUSTED_ORIGINS
+    - MAIL_API_KEY
+    - REDIS_URL
 
 
 
-5. > 📌 **Remember:** IF NOT present,, make gitignore file and  ⚠️!EXCLUDE .env from uploading to github.
+
+> 📌 **Remember:** IF NOT present,, make gitignore file and  ⚠️!EXCLUDE .env from uploading to github.
 
 
-6.  if you want Local databse, you can select `db.sqlite3` from `settings.py` and uncomment it.
+6.  if you want Local database, you can select `db.sqlite3` from `settings.py` and uncomment it.
 
 
-7.  (ONLY if) using LOCALDATABaSE run ::  `python manage.py migrate`  to translate models into the database tables. 
+7.  (ONLY if) using local database run ::  `python manage.py migrate`  to translate models into the database tables. 
    
  
 8.  using RENDER:   
-    - make a build command like... `pip install -r config/requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput`
+    - make a build command like... 
+     
+            `pip install -r config/requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput`
 
-    - and start command like ... `gunicorn teststudy.wsgi:application`
+    - and start command like ...
+    
+        `gunicorn teststudy.wsgi:application`
 
 
 9. Generate new Secret Key everytime: 
@@ -175,13 +178,12 @@ This project uses the following core technologies in production(***rest are incl
 > 📌 **Remember:**  username should be 10digit only as set by me in `login.html` and `model Student` constraints
 
 
-11. Check whether the project is running `python manage.py runserver`
+11. Check whether the project is running 
+            
+    `python manage.py runserver`
 
   
->⚠️⚠️⚠️ **Remember:** 💀💀💀 Never delete or change  schema from database online if online databse you 
-     are using  
-     (Except you can delete 
-     data from table from anywhere)
+>⚠️️ 💀**Remember:**  Never delete or change  schema from database from online portals.
 
 > ***IMPACT***:: otherwise your local `migrations` and `migrations` table in database  will 
      conflict then it will be a problem.
@@ -270,112 +272,184 @@ project_root/
   
 - We didn't used `Django--User model` as it was slow....... MAY BE due to our bad code but it was slow...
 ---------------------------------------------------------------------------
-## ⏳ Future Improvements(For future developers)
+## ⏳ Improvements(For future developers)
 
-> no PROJECT is perfect....
+> Please don't change the code structure without proper planning. Everything is ***mostly*** organised. 
 
-- Fix css in the teacher/activity page for buttons.
-- paginate or order by most popular the Inventory_items  list or something else.. in order to fetch less from db
-- Understand the working of apply filters or remove filters
-- Wherever the Filters are applied you should keep their data unless new are applied even when you are reloading, pageshifting
-- Student Profile table of componenet issue histroy must be paginated and filter based on date,category,not returned etc can be applied too.
-Note: we have applied indexes on one tyoe of date so filter data on basis of that indexed date.
-- DO we have to make the functionality of disappear sidebar on outside click. on student panel??????
-- add eye button for password in Login Page also. take it from singup page
-- separate add + - button in student/requestcomponent
-- request component sidebar make it good looking.
+> use AI but with proper knowledge.
 
 
-1. Improve Home Page according to the business requirements.
+### UI/UX changes:
 
-2.  Change the  Project's views.py to a `Class-Based design` using OOPS principles
+- General changes:
+    - First and Foremost, ask the teachers to keep the login page directly or making the home page useful.
 
-    Also implement try-catch wherver possible and give adequate messages.
+    - Then Fix overall CSS of homepage. then on moving to login page see what can we ***MATCH*** in the CSS of internal as well as both external pages. 
+    (***keep in mind***  not to remove the message box in the login page below title student login.)
 
-3. Make the Code Modular remove Snippets/logic of code that are reused and define them single time.
+    - Adding a ***forgot password*** option in the login page.
 
-4. Make the year of Student Editable. (If in case the website is used by student for more than one year.)
+    - Getting Photos of components if added in the Database.
 
-5. Make a feature to see the individual Component's issue records by repective students.
+    - Add proper messages in the website only whenever there's chances of Server Error.
 
-   ==>> Currently we have Components issued per Project. 
+    -  All the tables follow the same CSS but the issue is when we select a table row and click add 
+        the ***selection hover disappears***.  We have to fix this.
+
+    > IF you can make the Tables horizontally scroll instead of current CSS ==>> that will be some good work.
     
-   ==>> Components issued by individual Student. 
-
-
-6. Logic for` Deletion `needs to be configured:::
-   - like when any entry like component,student,branch,project will get deleted what will happen 
-   to related data.
-   
- > 📌 **Remember:** think Twice before making this logic otherwise Database will be at risk.
-
-7. Also transfer this into .csv file before then delete issue logs without sending important details.
-
-
-8. Add a feature of `Forgot Password via the mail.`
-
- 
-
-9. TO make the process of issuing components Fastest as light ⚡
-   - ***QR SCANNING*** :: for components directly to a specific project. This will include adding
-   tokens and uuids instead of integer ids to table values to uniquely identify components.
-
-   - I was not a web developer so future devs must apply their web development knowledge to 
-     optimise the Backend and Frontend.
-
-   > Topics like : HTMX, async () , API optimisation, advance JS(if there's such term) etc.  
-
-
-10. Filtering and searching of data can be made better. 
-
-
-11. `📊 Analytics` page showing growth, amount issued, usage, MAUs etc via appropriate graphs.
-
-
-12. `Request Based System` like wishlist or add to cart and notifications when component available.
-
-
-13. Email and phone number secure storage in database and  verification  but it will have to incur some cost.
-  (I don't know how it is stored in actual Production when we have resources available.)
-
-
-14. Currently we are doing Refresh every time a new request or approve comes.
+    - Quick ***Search bar*** feature for fetching component by name both in teacher and student panels.
     
-    We can make it `Realtime` .
+      `This can work as the Components will be less in number.` 
 
 
-15. Transfer data of issue log per month or so to a csv file to keep backup. (Refer point 2 of implementation problems below.)
+- Student Interface changes:(***Primarily used on mobile***)
+    - On the Dashboard, the ***View All*** and ***View Issued Components*** can be made some different Style.
+    
+    - Keeping the Filters intact even if the user Switch pages and their respective results too.
+    (Unless new filter applied or site closed)
+
+    - When we click Request Components>>Request component sidebar ===== That needs some UI changes.
+        - Select project popup comes out of Screen that is not required.
+        - Selected components should come in good Orientation not just normal text as it is currently.
+        - Decorate buttons too (***But with same color scheme as the entire Project***)
+    
+    - ""Add"" button in table row expands more when clicked. We want inplace.
 
 
-16. ### 🤖 AI integrations : 
-
-    - Demand Prediction for every new project.
-    - Issuing prediction as per student. 
-    - low stock alerts and hackathons components classification etc.
-
-
-17. Displaying 15 Most popular Components in the start in overall categories to directly issue which will
-reduce query load on databse.  
+- Admin Interface :
+  
+    - IF required we can make this work on ***Mobile version***.
+    - Add a column for Student name also in admin dashboard panel.
+    - You are Free to change the Student Proile CSS, new ideas are Welcomed...
 
 
-18. either make the website easy to use or we can add tutorials for some pages for student. tha tells how to avail all  the functionalities.
-***This is good*** for showing the interviewers also.
+### Backend Changes 
+
+- Adding a ***forgot password*** feature (ONLY FOR STUDENTS). Note that the passwords are encrypted in the database. 
 
 
-19. ### Tokenising(Prevent URL Exposure)
-- use `uuids` to store student id's and component id's etc.
-- Instead of giving `<path:>` give a` random token ` value for each category which expires after 
-  short time to avoid Guessing by users.
+- We can keep the student always logged in unless he logs out(like erp as there's not much personal data).
 
-20. ### ***API*** 
-    - It can be made to filter results as that would make the load of api query less. 
+
+- Change the  Project's views.py to a ***Class-Based design*** using OOPS principles
+
+    Also implement try-catch wherever possible and give adequate messages.
+
+    Example: 
+        
+    - whenever the currently available==0 and requested is there ==>> if teacher clicks accept then ***SERVER ERROR*** happens.
+    Give a message instead of this. 
+
+
+- See all possibilities of Going into a ***Server error*** situation throughout the website.
+
+
+- The ***Add component*** Button in the Admin dashboard->>Inventory page is not adding the components in the specific category.
+
+
+- Amin dahsboard-->>Inventory-->>any category ,then we see a table which has `mark as deleted` but doesn't have 
+    ***mark as working*** option again to  change deleted component if we want to.
+
+
+- Admin Dashboard-->>All students-->> When we Search by Name it gives a server Error. We have made it Compulsory to give
+    year and branch but the name feature should also work.
+
+
+- Add new Faculty has some issue with IOT and Electrical Mismatch.
+
+
+- Add Filter based on ***OUT OF STOCK*** in the existing filters. 
+
+
+-  Optimixations like : HTMX, async () ,  advance JS(if there's such term) etc.  
+
+
+### Database changes(By me)
+
+> Note: we have applied indexes on one tyoe of date so filter data on basis of that indexed date.
+ Don't change indexes Randomly.
+
+
+- Storing of ***phone numbers*** in the database is direct. Is there any way we can encrypt phone numbers?
+How are they stored in real world applications?
+
+
+- Should we completely ***remove the year*** column as it will change after sometime 
+and the year can be identified from the roll no. ?
+
+
+- We can afford adding component pictures for better UI/UX(but to some extent).
+  
+    Then we have to see Overall affect on speed, performance and optimise in ***QUICK MODE*** if required.
+
+
+-  ***API*** 
+    - It can be made to filter results based on some conditions , as that would make the load of api query less. 
     - Currently API can be accesed by admins and staff only make it accesible to student but only their records.
 
+    
 
-21. Add Github Branch Protection to secure it from `git push -- force` and every push will be made only by pull request. 
+### Testing and Security 
 
-22. > *** Maintain Security *** for mobile numbers in the database. 
----------------------------------------
+- We want to check and ensure specific number of logins a user can make from multiple devices.Right now it
+is not configured.
+
+
+- Tokenising(Prevent URL Exposure)
+    - use `uuids` to store student id's and component id's etc.
+    - Instead of giving `<path:>` give a` random token ` value for each category which expires after 
+      short time to avoid Guessing by users.
+
+
+-  Add Github Branch Protection to secure it from `git push -- force` and every push will be made only by pull request. 
+
+
+- Keep data secured in transit in network.(like passwords, api calls etc)
+
+- Controlling/ Manage read and writes on the same table like issue Records.
+
+
+### Completely new features 
+
+- ***QUICK MODE*** can be enabled once the student is logged in :
+    
+  - QR code can be applied for 6 main categories..***(Not for ALL COMPONENTS)*** 
+    then on Scanning a quick list of most popular components come and the student just
+    add quantity requested and add project then submit.
+
+    (This might be done by adding tokens and special uuids for each category.)
+
+
+- ***Save login credentials***: (like many social media sites like instagram) to increase
+    the speed of process. (may be on google save passwords or like saved profiles feature on instagram)
+
+    Then after 15 days or so reinput password for some security.
+
+
+-  ***Records BACKUP***: All the records of current and previous students must be stored for a long time.
+    Add a feature to transfer records to Csv or Excel after a year or semester.(This is important and Can't mess up.)
+
+
+- ***Analytics page***: We can show Visualisations and analytics of components issued per unit time,
+    user engagement , monthly active users, efficiency increase vs offline issuing of components etc
+
+
+-   Currently, we are doing Refresh every time a new request or approve comes.
+    
+    We can make it ***Realtime*** .(But it comes with More load on database)
+
+
+- Sending Email Functionality for forgot Password or One time Mobile Verification. 
+
+
+- Allowing admins to see Data in any form:
+    - Components Issued by a Student
+    - Components Issued in specific Project.
+    - Records for a Particular Component, etc
+-----------------------
+
+
 
 ## ⚠️ Implementation Problems 
 
@@ -403,27 +477,8 @@ reduce query load on databse.
     
     so he/she will have to either reject the request or approve the whole qty which will be unfair to ither users.
 
-> ***✨ Solution: New feature of aproving dynamic range of quantities similar to add option in the student request components. Allow teacher to issue the quantity he want. 
+    > ***✨ Solution: New feature of aproving dynamic range of quantities similar to add option in the student request components. Allow teacher to issue the quantity he want. 
 depending upon the  availibilty and need per project.***
-
     
-- so student only sends the name on component and qunatity requested. 
-
-> 💀💀 if by any means the email id on which the project is uploaded gets deleted i don;t know what will happen to data 
-
-
-- NOTE:: if u change cache key ANYTIME just remember to change the set and delete key also everytime cache key is used.
-
-- Cache for Student enrolled projects is the only Growing cache. Think to manage it.
+    - so student only sends the name on component and qunatity requested.
 ------------------------------------------
-
-## Testing  :
-
-- see that the activity page in the teacher section query the databse again and again if we 
-    change the page but not change the filters.
-
-- how many login can a student do from different devices. HOW will it work ?
-
-- Keep data secured in transit in network.(like passwords, api calls etc)
-
-- how are we controlling read and writes on the same table ???
