@@ -113,7 +113,7 @@ def get_all_faculty():
 # Cache all enrolled projects for a student ::: Until new enrollment  `
 #======================================================================
 def cached_student_projects(student):
-    cache_key = f"cached_student_{student.std_id}_projects"
+    cache_key = f"cached_student_{student.std_first_name}_projects"
     projects = cache.get(cache_key)
 
     # use this to check....... PYTHON SHELL NOT WORKS AS LOCALMEMCACHE IS NOT SHARED ON DJANGO .... it is ONLY FOR BROWSER
@@ -128,7 +128,8 @@ def cached_student_projects(student):
                         'proj_enroll_project__avail_proj_faculty_associated'
                     ))
         # None for long-term
-        cache.set(cache_key, projects, timeout=None)
+        # 15 days currently
+        cache.set(cache_key, projects, timeout=1296000)
         # print(f"set cache for {student.std_id}==>> 1 db hit ")
     return projects
 
@@ -283,7 +284,7 @@ def enroll_in_projects(request):
         )
 
         # ------ Invalidate cache for this student ---------
-        cache.delete(f"cached_student_{student.std_id}_projects")
+        cache.delete(f"cached_student_{student.std_first_name}_projects")
 
 
         messages.success(request,"Enrollment successful!",extra_tags="enroll_success")
@@ -392,7 +393,7 @@ def category_items(request ,slug):
     paginator = Paginator(components, 15)  # 15 per page
     page_number = request.GET.get("page", 1)
 
-    # now this stattement hits db before it was a lazy query
+    # now this statement hits db before it was a lazy query
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'final/student/category_items.html', {
