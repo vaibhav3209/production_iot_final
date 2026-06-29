@@ -11,22 +11,11 @@
 - [Testing Doubts for me](#testing-doubts-for-me-)
 
 ---------------------------------------------------------------------------
-## 🔑 ***Readme Shortcuts***
-- `##` → section heading
-- `***text***` → bold + italic emphasis
-- `-` → bullet points
-- `` `code` `` → inline code
-- ``` ``` → code block
-- `>` → note / important message
-- enter for two lines to give space between each list point 
----------------------------------------------------------------------------
 
-## 🌐 Account Required 
-- github
+## 🌐 Account Required
 - upstash(for cache)
 - render
 - supabse
-- email
 
 
 -------------------------------------------------------------------
@@ -261,15 +250,6 @@ project_root/
 
 ## 📚 PROJECT GUIDELINES
 
-- Every column will start from a prefix of its table name. 
-  Some Examples.....
-
-
-    comp_cate_                     ==>>  for Component_categories
-    comp_                          ==>>  for Component model
-    std_                           ==>>  for Student model
-    std_issue_                     ==>>  for StudentIssueLog model
-  
 - We didn't used `Django--User model` as it was slow....... MAY BE due to our bad code but it was slow...
 ---------------------------------------------------------------------------
 ## ⏳ Improvements(For future developers)
