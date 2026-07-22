@@ -11,7 +11,7 @@ staticfilesforproduction/
 #don't publish  staticfilesforproduction on github as same hi files hongi
 
 # Virtual environment
-env/
+iotenv/
 
 # IDE files
 .idea
@@ -20,7 +20,7 @@ env/
 
 # Environment variables
 config/.env
+config/.env.simulated
 
 # Extra Files
-FINALCHECKS.txt
-studydjango_orm.txt
+local_data/

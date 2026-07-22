@@ -1,5 +1,7 @@
 from django.urls import path
 from django.conf import settings
+from django.views.generic import RedirectView
+
 from . import views
 from .views import StudentIssueLogAPI
 
@@ -9,14 +11,13 @@ from .views import StudentIssueLogAPI
 
 app_name = "final"
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', RedirectView.as_view(pattern_name='final:login', permanent=False), name='home'),
 
     path('login/', views.user_login, name="login"),
     path('student/', views.student_dashboard, name="student_dashboard"),
     path('teacher/logout/', views.admin_logout, name='admin_logout'),
     path('student/logout/', views.student_logout, name='student_logout'),
 
-    path('student/enroll_in_projects/', views.enroll_in_projects, name="enroll_in_projects"),
     path('student/issued_items/', views.issued_items, name="issued_items"),
     path('student/request-components/', views.request_components, name="request_components"),
     path('student/request-components/<path:slug>/', views.category_items,name='category_items'),

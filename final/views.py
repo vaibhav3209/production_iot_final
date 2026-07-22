@@ -36,8 +36,7 @@ from rest_framework import generics
 # Local
 # ===============================
 from .decorators import student_login_required, admin_login_required
-from .models import Student, StudentIssueLog, ComponentCategory, Component, Branches,AvailableProjects,ProjectEnrolledStudents,Faculty
-
+from .models import Student, StudentIssueLog, ComponentCategory, Component, Branches,AvailableProjects,Faculty
 
 # ===============================
 # Api
@@ -108,39 +107,72 @@ def get_all_faculty():
 
 
 
+# To write to :: renew later when we add any new category
+# curretnly it is being used for simulation_service
+def component_in_category_x(category_obj):
+    cache_key = f"components_in_{category_obj.comp_cate_category_name}"
+    components = cache.get(cache_key)
+
+    if components is None:
+
+        components = list(Component
+                          .objects
+                          .filter(comp_category_id=category_obj.id,
+                                  comp_status=True)
+                          .values_list("id",flat = True)
+                          )
+        cache.set(cache_key,components,None)
+
+    return components
+
 
 #=======================================================================
 # Cache all enrolled projects for a student ::: Until new enrollment  `
 #======================================================================
-def cached_student_projects(student):
-    cache_key = f"cached_student_{student.std_first_name}_projects"
-    projects = cache.get(cache_key)
+# def cached_student_projects(student):
+#     cache_key = f"cached_student_{student.std_first_name}_projects"
+#     projects = cache.get(cache_key)
+#
+#     # use this to check....... PYTHON SHELL NOT WORKS AS LOCALMEMCACHE IS NOT SHARED ON DJANGO .... it is ONLY FOR BROWSER
+#     # print("retrieved from cache ==>> no db hit")
+#
+#     if projects is None:
+#
+#         projects = list(ProjectEnrolledStudents.objects.filter(
+#                         proj_enroll_student_id=student.std_id
+#                     ).select_related(
+#                         'proj_enroll_project',
+#                         'proj_enroll_project__avail_proj_faculty_associated'
+#                     ))
+#         # None for long-term
+#         # 15 days currently
+#         cache.set(cache_key, projects, timeout=1296000)
+#         # print(f"set cache for {student.std_id}==>> 1 db hit ")
+#     return projects
 
-    # use this to check....... PYTHON SHELL NOT WORKS AS LOCALMEMCACHE IS NOT SHARED ON DJANGO .... it is ONLY FOR BROWSER
-    # print("retrieved from cache ==>> no db hit")
-
-    if projects is None:
-
-        projects = list(ProjectEnrolledStudents.objects.filter(
-                        proj_enroll_student_id=student.std_id
-                    ).select_related(
-                        'proj_enroll_project',
-                        'proj_enroll_project__avail_proj_faculty_associated'
-                    ))
-        # None for long-term
-        # 15 days currently
-        cache.set(cache_key, projects, timeout=1296000)
-        # print(f"set cache for {student.std_id}==>> 1 db hit ")
-    return projects
 
 
+#=======================================================================
+# Caching for DATA GENERATION BOT  `
+#======================================================================
+def students_per_project(data_dict):
+    cache_key = 'students_per_project'
+    data = cache.get(cache_key)
+
+    if data is None:
+        data = data_dict
+        cache.set(cache_key,data,timeout=None)
+
+    # return a dictionary of projectid as key and list of students
+    return data
 
 
 #=======================================================================
 # Order of functions :::  Same as name tags `urls.py`
 #======================================================================
-def home(request):
-    return render(request,'final/home.html')
+# def home(request):
+    """ This function is No longer used """
+#     return render(request,'final/home.html')
 
 
 
@@ -207,8 +239,14 @@ def user_login(request):
             )
 
         except ValidationError as e:
-            messages.error(request, "Cannot create user. Enter a valid roll number.", extra_tags='signup_error')
+            messages.error(request, "Cannot create user. Validation Checks Failed.", extra_tags='signup_error')
             return render(request, "final/login.html")
+
+            """For Debugging"""
+            # import traceback
+            # traceback.print_exc()
+            # raise
+
 
         except IntegrityError:
             messages.error(request, "data violates constraints.",extra_tags='signup_error')
@@ -227,12 +265,8 @@ def user_login(request):
 def student_dashboard(request):
     student = request.student
 
-    # cached enrolled projects until student enrolls in a new one ...... SAVES A LOT OF DB HITS
-    enrolled_projects = cached_student_projects(student)
-
     return render(request,"final/student/student_dashboard.html",
-                  {"student": student,
-                   "enrolled_projects":enrolled_projects})
+                  {"student": student})
 
 
 
@@ -249,50 +283,6 @@ def student_logout(request):
 def admin_logout(request):
     logout(request)
     return redirect("final:login")
-
-
-
-@student_login_required
-def enroll_in_projects(request):
-    projects = get_all_available_projects()
-
-    if request.method == 'POST':
-        project_id = request.POST.get("project_id")
-
-        if not project_id:
-            messages.error(request, "Invalid project selection.",extra_tags="enroll_error")
-            return redirect('final:student_dashboard')
-
-        student = request.student
-        project_obj = get_object_or_404(AvailableProjects, id=project_id)
-
-        # prevent duplicate enrollment
-        already_enrolled = ProjectEnrolledStudents.objects.filter(
-            proj_enroll_project=project_obj,
-            proj_enroll_student=student
-        ).exists()
-
-        if already_enrolled:
-            messages.warning(request,"You are already enrolled in this project.",
-                extra_tags="enroll_error"
-            )
-            return redirect('final:enroll_in_projects')
-
-        ProjectEnrolledStudents.objects.create(
-            proj_enroll_project=project_obj,
-            proj_enroll_student=student
-        )
-
-        # ------ Invalidate cache for this student ---------
-        cache.delete(f"cached_student_{student.std_first_name}_projects")
-
-
-        messages.success(request,"Enrollment successful!",extra_tags="enroll_success")
-        return redirect('final:student_dashboard')
-
-    return render(request,"final/student/enroll_in_projects.html",
-        {"projects": projects}
-    )
 
 
 
@@ -364,12 +354,11 @@ def issued_items(request):
 
 @student_login_required
 def request_components(request):
-    student = request.student
-    enrolled_projects = cached_student_projects(student)
-
+    # student = request.student
+    all_projects = get_all_available_projects()
     return render(request,
                   'final/student/request_components.html',
-                  {"enrolled_projects":enrolled_projects})
+                  {'all_projects':all_projects})
 
 
 
@@ -384,11 +373,11 @@ def category_items(request ,slug):
                 Component.objects
                   .select_related('comp_category')
                   .filter(comp_category=category)
-                  .order_by("-comp_popularity")
+                  .order_by("-comp_name")
                   )
 
-    student = request.student
-    enrolled_projects = cached_student_projects(student)
+    # student = request.student
+    all_projects = get_all_available_projects()
 
     paginator = Paginator(components, 15)  # 15 per page
     page_number = request.GET.get("page", 1)
@@ -399,9 +388,11 @@ def category_items(request ,slug):
     return render(request, 'final/student/category_items.html', {
         # 'components': components,    #no need to send after pagination
         'category_name': category.comp_cate_category_name,
-        "enrolled_projects": enrolled_projects,
+        "all_projects": all_projects,
         "page_obj":page_obj
     })
+
+
 
 
 # 7.c.  submit request from right sidebar
@@ -418,6 +409,7 @@ def submit_request(request):
     #get the project object --  direct id is not inserted
     project = get_object_or_404(AvailableProjects,id=project_id)
     # print(component_ids,quantities)
+    # print(project)
 
     if not component_ids or not quantities:
         messages.error(request, "No components selected",extra_tags='error_requestcomp')

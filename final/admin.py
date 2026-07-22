@@ -1,12 +1,12 @@
 from django.contrib import admin
 from .models import (Student, Component, StudentIssueLog, ComponentCategory, Branches,
-                     AvailableProjects,Faculty,ProjectEnrolledStudents)
+                     AvailableProjects,Faculty)
 
 admin.register(ComponentCategory)
 admin.register(Branches)
 admin.register(AvailableProjects)
 admin.register(Faculty)
-admin.register(ProjectEnrolledStudents)
+
 
 
 

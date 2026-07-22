@@ -12,7 +12,7 @@ name_validator = RegexValidator(
 )
 
 roll_validator = RegexValidator(
-    regex=r'^[2-9][0-9]ESK[a-zA-Z]{2}[0-9]{3}$',
+    regex=r'^[2-9][0-9][eE][sS][kK][a-zA-Z]{2}[0-9]{3}$',
     message="Roll number must be exactly 10 digits"
 )
 
@@ -73,7 +73,7 @@ class Component(models.Model):
         on_delete=models.PROTECT,                #componnentcategory can't be deleted until you settle all components in that categry
         related_name="components_inthis_category")
 
-    comp_popularity = models.PositiveIntegerField(default=0)
+
     comp_status = models.BooleanField(default=True)
 
     def __str__(self):
@@ -151,7 +151,7 @@ class Student(models.Model):
 
         constraints = [
             models.CheckConstraint(
-                check=Q(std_roll_number__regex=r'^[2-9][0-9]ESK[a-zA-Z]{2}[0-9]{3}$'),
+                check=Q(std_roll_number__regex=r'^[2-9][0-9][eE][sS][kK][a-zA-Z]{2}[0-9]{3}$'),
                 name="roll_number_10_digits"
             ),
 
@@ -186,21 +186,6 @@ class AvailableProjects(models.Model):
     def __str__(self):
         return f"{self.avail_proj_project_name}"
 
-
-
-class ProjectEnrolledStudents(models.Model):
-    #one project can have many students : and vice versa
-    proj_enroll_project = models.ForeignKey(
-        AvailableProjects,
-        on_delete=models.PROTECT,
-        related_name="enrolled_students"   # all students for this project
-    )
-
-    proj_enroll_student = models.ForeignKey(
-        Student,
-        on_delete=models.PROTECT,
-        related_name="projects_enrolled"  # all projects this student is enrolled in
-    )
 
 
 #   ==================================

@@ -22,9 +22,9 @@
 
     <select name="project_id" id="projectSelect" class="form-control" required>
         <option value="" disabled selected>Select a project</option>
-        {% for enrollment in enrolled_projects %}
-            <option value="{{ enrollment.proj_enroll_project.id }}">
-                {{ enrollment.proj_enroll_project.avail_proj_project_name }}
+        {% for enrollment in all_projects %}
+            <option value="{{ enrollment.id }}">
+                {{ enrollment.avail_proj_project_name }}
             </option>
         {% endfor %}
     </select>

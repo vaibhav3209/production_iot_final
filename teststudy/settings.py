@@ -64,6 +64,8 @@ ADMIN_PATH = os.getenv("ADMIN_PATH")
 
 DEBUG = config('DEBUG', cast=bool)
 
+RENDER_APP_URL = os.getenv('RENDER_APP_URL')
+
 
 ALLOWED_HOSTS=os.getenv("ALLOWED_HOSTS", "").split(",")
 
@@ -90,7 +92,11 @@ EMAIL_SENDER_NAME = "Inventory System"
 # Session cookies
 # --------------------
 SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SECURE = config('DEBUG', cast=bool)
+# SESSION_COOKIE_SECURE = config('DEBUG', cast=bool)
+
+
+"""Changed this for the bot signup process"""
+SESSION_COOKIE_SECURE = False
 SESSION_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_AGE = int(os.getenv('SESSION_COOKIE_AGE', 1800))
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -99,7 +105,10 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # --------------------
 # CSRF cookie
 # --------------------
-CSRF_COOKIE_SECURE =config('DEBUG', cast=bool)
+# CSRF_COOKIE_SECURE =config('DEBUG', cast=bool)
+
+"""Changed this for the bot signup process"""
+CSRF_COOKIE_SECURE =False
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Lax'
 
@@ -128,7 +137,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-     'final.apps.FinalConfig',
+    'final.apps.FinalConfig',
+    'simulation.apps.SimulationConfig',
 
 ]
 
